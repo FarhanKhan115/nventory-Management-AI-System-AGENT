@@ -1,0 +1,237 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nI am a Grocery AI Assistant. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1ca8d7b4-2a78-4a9a-aaf7-7dc1ce3b7520",
+      "name": "When chat message received",
+      "webhookId": "8364b28b-d723-418c-9bba-d96ba22080fa"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d482772c-acf9-41f9-9ffd-dbb3bfdefee0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        208
+      ],
+      "id": "f5f03594-a8bb-4482-b152-395c03ccf9f2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tr45z008zOaODp3h",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "f46aa969-a21c-4e15-b1bd-5af3f547fd35",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZcIKAEwoYLAd_F3PKCDK6b5StDuc-7LkDM72jIjg7qM",
+          "mode": "list",
+          "cachedResultName": "n8n.Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcIKAEwoYLAd_F3PKCDK6b5StDuc-7LkDM72jIjg7qM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcIKAEwoYLAd_F3PKCDK6b5StDuc-7LkDM72jIjg7qM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fruit Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Fruit_Name', ``, 'string') }}",
+            "Quantity in Stock": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantity_in_Stock', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "Fruit Name"
+          ],
+          "schema": [
+            {
+              "id": "Fruit Name",
+              "displayName": "Fruit Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quantity in Stock",
+              "displayName": "Quantity in Stock",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        544,
+        192
+      ],
+      "id": "de8cabd8-cbef-47c7-b713-4c803adba024",
+      "name": "Update Inventory",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gHaxR7zJUeNpV4Lx",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "=1ZcIKAEwoYLAd_F3PKCDK6b5StDuc-7LkDM72jIjg7qM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcIKAEwoYLAd_F3PKCDK6b5StDuc-7LkDM72jIjg7qM/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        368,
+        208
+      ],
+      "id": "4b68d63b-e0df-44aa-9b93-ed8df91aa404",
+      "name": "Search Inventory",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gHaxR7zJUeNpV4Lx",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Inventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Inventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "21810a87-97fe-417e-8dd4-80d8a71be06f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6bb94ec07aed450304766188751cbd1539bcf328dc6d0e1faf1d3a55ec52ac7d"
+  },
+  "id": "oBjd6rn6p4RIsEuK",
+  "tags": []
+}
